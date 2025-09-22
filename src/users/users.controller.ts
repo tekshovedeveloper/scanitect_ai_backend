@@ -106,36 +106,37 @@ export class UserController {
   }
 
 
-  // get user
-  @ApiOperation({
-    summary: "User List",
-    description: "Get User List",
-  })
-  @ApiResponse(userListSuccessResponse)
-  @ApiResponse({ status: 403, description: "Forbidden." })
-  @UseGuards(AuthGuard)
-  @Get('getuser')
-  @UseFilters(new HttpExceptionFilter())
-  async findUser(@Query('userid') name: string, @Req() req: UserRequest, @Res() res: Response): Promise<any> {
-    const id: string = uuid();
-    this.logger.log('find User api called', id, 'users.controler.ts', 'GET', '/getuser', 'findUser');
+ 
 
-    let userid: string = null;
-    if (userid) {
-      userid = userid;
-    } else {
-      userid = req.user.sub
-    }
-    userid = req.user.sub
-    let projection = { _id: 1, first_name: 1, last_name: 1, email: 1 }
-    const userList = await this.userService.findOne(userid, projection);
-    return sendResponse(
-      res,
-      HttpStatus.OK,
-      statusMessage[HttpStatus.OK],
-      true,
-      userList
-    );
-  }
+
+
+@ApiOperation({
+  summary: "Test API",
+  description: "Simple API to test if backend is running",
+})
+@ApiResponse({ status: 200, description: "Backend is running" })
+@Public()  // mark it public if you want it without auth guard
+@Get('test')
+testApi(@Res() res: Response): Response {
+  this.logger.log('Test API called', 'simple-test-id', 'users.controller.ts', 'GET', '/users/test', 'testApi');
+  return sendResponse(
+    res,
+    HttpStatus.OK,
+    statusMessage[HttpStatus.OK],
+    true,
+    { message: "Backend is running!" }
+  );
+}
+
+
+
+
+
+
+
+
+
+
+ 
 
 }
